@@ -1,0 +1,39 @@
+{% extends 'Products/base.html' %}
+
+{% block content %}
+<h1>Products</h1>
+
+<table style="width: 100%;">
+    <thead>
+        <tr style="height: 50px;">
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Unit of Measure</th>
+            <th>Quantity on Hand</th>
+            <th>Cost</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- <p>{{products}}</p> -->
+        {% for product in products %}
+        <!-- {% with product.fields as fields %} -->
+        <tr>
+            <!-- <td>{{product}}</td> -->
+            <td>{{ product.PRODUCT_ID }}</td>
+            <td>{{ product.PRODUCT_NAME }}</td>
+            <td>{{ product.UOM }}</td>
+            <td>{{ product.QUANTITY_ON_HAND }}</td>
+            <td>{{ product.COST }}</td>
+            <td>{{ product.STATUS }}</td>
+            <td>
+                <a href="/products/edit/{{ product.PRODUCT_ID }}/">Edit</a> |
+                <a href="/products/delete/{{ product.PRODUCT_ID }}/">Delete</a>
+            </td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
