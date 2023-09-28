@@ -11,7 +11,7 @@
     <style>
         .grid-container {
             display: grid;
-            grid-template-columns: 70% 30%;
+            grid-template-columns: 100%;
             height: 100vh; /* Set the grid container height */
         }
 
@@ -29,7 +29,7 @@
         }
 
         .chat-container {
-            max-height: 300px;
+            max-height: 400px;
         }
 
         .chat-dialog {
@@ -38,7 +38,7 @@
             height: 100%; /* Make the chat dialog fill the grid cell */
             overflow-y: scroll; /* Add vertical scrollbar */
             position: relative; /* Add relative positioning */
-            display: flex;
+            display: none;
             flex-direction: column;
         }
 
@@ -50,7 +50,7 @@
 
         .chat-container {
             flex: 7; /* Take up 70% of the available height */
-            height: 400px;
+            height: 480px;
             max-height: none; /* Set a maximum height for the chat container */
             overflow-y: scroll; /* Add a vertical scrollbar when needed */
             scroll-behavior: smooth;
@@ -93,7 +93,7 @@
         .user-message, .bot-message {
             border-radius: 15px;
             padding: 10px 15px;
-            max-width: 70%;
+            max-width: 80%;
             margin-bottom: 10px;
         }
     </style>
@@ -130,7 +130,7 @@
         <div class="main-content">
             <!-- Your existing content goes here -->
             <div class="container" style="text-align: center;">
-                <br><br><br><br>
+                <br><br>
                 <h1>Welcome to ChatCraft CRM</h1>
                 <br><br><br><br>
                 <div class="row">
@@ -195,12 +195,19 @@
                     <div id="chat-messages"></div>
                 </div>
             </div>
+            <br>
             <div class="chat-input" style="position: relative;">
                 <input type="text" id="chat-input" placeholder="Type a message...">
                 <button id="send-message"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
+    <!-- Your existing HTML code... -->
+
+    <button id="toggle-chat" style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 16px; background-color: teal; color: white; border: none; border-radius: 5px; cursor: pointer;">Toggle</button>
+
+<!-- Your existing HTML code... -->
+
 
     <!-- Add Bootstrap JS (optional, for dropdowns, toggles, etc.) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -208,83 +215,101 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-                const chatMessages = document.getElementById('chat-messages');
-                const chatInput = document.getElementById('chat-input');
-                const sendMessageBtn = document.getElementById('send-message');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const sendMessageBtn = document.getElementById('send-message');
 
-                let module, action, columns=[], expected_cols, columns_keys;
-                let all_modules = ['products', 'salesorders', 'salesinvoices','customers','employees'];
-                let all_actions = ['add','edit','delete'];
+            let module, action, columns=[], expected_cols, columns_keys;
+            let all_modules = ['products', 'salesorders', 'salesinvoices','customers','employees'];
+            let all_actions = ['add','edit','delete'];
 
-                function appendMessage(message, type) {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', type + '-message');
-                    messageElement.innerText = message;
-                    chatMessages.appendChild(messageElement);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
+            function appendMessage(message, type) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', type + '-message');
+                messageElement.innerText = message;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
 
-                function handleUserInput(input) {
-                    if (!input) return;
+            function handleUserInput(input) {
+                if (!input) return;
 
-                    if (!module) {
-                        appendMessage(`${input}`,'user');
-                        if(all_modules.includes(input)){
-                            module = input;
-                            appendMessage('Enter action (add, delete, edit).','bot');
-                        }
-                        else{
-                            appendMessage('Enter valid module.','bot');
-                        }
-                    } 
-                    else if (!action) {
-                        appendMessage(`${input}`,'user')
-                        if (all_actions.includes(input)) {
-                            action = input;
-                            columns_keys = ['Column 1', 'Column 2', 'Column 3'];
-                            expected_cols = columns_keys.length;
-                            appendMessage(`Enter the following Columns for ${module} to perform ${action}.`,'bot');
-                            appendMessage(`Enter the ${columns_keys[columns.length]}`, 'bot')
-                        }
-                        else {
-                            appendMessage('Enter valid action.','bot');
-                        }
+                if (!module) {
+                    appendMessage(`${input}`,'user');
+                    if(all_modules.includes(input)){
+                        module = input;
+                        appendMessage('Enter action (add, delete, edit).','bot');
                     }
-                    else if(columns.length!=expected_cols){
-                        appendMessage(`${input}`,'user');
-                        columns.push(input);
-                        if(columns.length==expected_cols){
-                            appendMessage('Action was successfully performed', 'bot');
-                            appendMessage('Wanna Continue?', 'bot');
-                        }
-                        else{
-                            appendMessage(`Enter the ${columns_keys[columns.length]}`, 'bot');
-                        }
+                    else{
+                        appendMessage('Enter valid module.','bot');
+                    }
+                } 
+                else if (!action) {
+                    appendMessage(`${input}`,'user')
+                    if (all_actions.includes(input)) {
+                        action = input;
+                        columns_keys = ['Column 1', 'Column 2', 'Column 3'];
+                        expected_cols = columns_keys.length;
+                        appendMessage(`Enter the following Columns for ${module} to perform ${action}.`,'bot');
+                        appendMessage(`Enter the ${columns_keys[columns.length]}`, 'bot')
                     }
                     else {
-                        appendMessage(`${input}`,'user');
-                        if(input=='yes'){
-                            module = null;
-                            action = null;
-                            columns = null;
-                            appendMessage('Enter module:','bot');
-                        }
-                        else{
-                            appendMessage('Thank You','bot');
-                            // chatMessages.innerHTML=''
-                        }
+                        appendMessage('Enter valid action.','bot');
                     }
-
-                    chatInput.value = '';
+                }
+                else if(columns.length!=expected_cols){
+                    appendMessage(`${input}`,'user');
+                    columns.push(input);
+                    if(columns.length==expected_cols){
+                        appendMessage('Action was successfully performed', 'bot');
+                        appendMessage('Wanna Continue?', 'bot');
+                    }
+                    else{
+                        appendMessage(`Enter the ${columns_keys[columns.length]}`, 'bot');
+                    }
+                }
+                else {
+                    appendMessage(`${input}`,'user');
+                    if(input=='yes'){
+                        module = null;
+                        action = null;
+                        columns = null;
+                        appendMessage('Enter module:','bot');
+                    }
+                    else{
+                        appendMessage('Thank You','bot');
+                        // chatMessages.innerHTML=''
+                    }
                 }
 
-                sendMessageBtn.addEventListener('click', function () {
-                    handleUserInput(chatInput.value);
-                });
+                chatInput.value = '';
+            }
 
-                appendMessage('Hi! Welcome', 'bot')
-                appendMessage('Enter module.','bot');
+            sendMessageBtn.addEventListener('click', function () {
+                handleUserInput(chatInput.value);
             });
+
+            appendMessage('Hi! Welcome', 'bot')
+            appendMessage('Enter module.','bot');
+
+            const chatDialog = document.querySelector('.chat-dialog');
+            const toggleChatButton = document.getElementById('toggle-chat');
+            const mainpage = document.querySelector('.grid-container');
+
+            // Function to toggle chat visibility
+            function toggleChat() {
+                if (chatDialog.style.display === 'none' || chatDialog.style.display === '') {
+                    chatDialog.style.display = 'block';
+                    mainpage.style.gridTemplateColumns = '70% 30%';
+                } else {
+                    chatDialog.style.display = 'none';
+                    mainpage.style.gridTemplateColumns = '100% 0%';
+                }
+            }
+
+            // Add an event listener to the button
+            toggleChatButton.addEventListener('click', toggleChat);
+        });
     </script>
 </body>
 
