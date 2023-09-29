@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 from django.http import HttpRequest
 
 def MyHomePage(request: HttpRequest):
-    return render(request, 'home/Homepage.html')
+    return render(request, 'home/dashboard.html')

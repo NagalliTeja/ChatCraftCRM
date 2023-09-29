@@ -12,19 +12,22 @@
         .grid-container {
             display: grid;
             grid-template-columns: 100%;
-            height: 100vh; /* Set the grid container height */
+            height: 100vh;
+            /* Set the grid container height */
         }
 
         .main-content {
             background-color: #f8f8f8;
             padding: 20px;
-            height: 100%; /* Make the main content fill the grid cell */
+            height: 100%;
+            /* Make the main content fill the grid cell */
         }
 
         .chat-dialog {
             background-color: #e0e0e0;
             padding: 20px;
-            height: 100%; /* Make the chat dialog fill the grid cell */
+            height: 100%;
+            /* Make the chat dialog fill the grid cell */
             overflow-y: scroll;
         }
 
@@ -35,30 +38,37 @@
         .chat-dialog {
             background-color: #e0e0e0;
             padding: 20px;
-            height: 100%; /* Make the chat dialog fill the grid cell */
-            overflow-y: scroll; /* Add vertical scrollbar */
-            position: relative; /* Add relative positioning */
+            height: 100%;
+            /* Make the chat dialog fill the grid cell */
+            overflow-y: scroll;
+            /* Add vertical scrollbar */
+            position: relative;
+            /* Add relative positioning */
             display: none;
             flex-direction: column;
         }
 
         h1 {
-            flex: 1; /* Take up 10% of the available height */
+            flex: 1;
+            /* Take up 10% of the available height */
             margin: 0;
             position: relative;
         }
 
         .chat-container {
-            flex: 7; /* Take up 70% of the available height */
+            flex: 7;
+            /* Take up 70% of the available height */
             height: 480px;
-            max-height: none; /* Set a maximum height for the chat container */
-            overflow-y: scroll; /* Add a vertical scrollbar when needed */
-            scroll-behavior: smooth;
+            max-height: none;
+            /* Set a maximum height for the chat container */
+            overflow-y: scroll;
+            /* Add a vertical scrollbar when needed */
+            /* scroll-behavior: smooth; */
         }
 
         .chat-input {
-            flex: 2; /* Take up 20% of the available height */
-            position: relative; /* Add relative positioning */
+            flex: 2;
+            position: relative;
             display: flex;
             align-items: center;
         }
@@ -69,6 +79,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-right: 10px;
+            max-width: 75%;
         }
 
         .chat-input button {
@@ -94,8 +105,11 @@
             border-radius: 15px;
             padding: 10px 15px;
             max-width: 80%;
+            word-break: break-word;
             margin-bottom: 10px;
         }
+
+        {% block extra_css %}{% endblock %}
     </style>
 </head>
 
@@ -110,16 +124,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                {% block extra_nav %}{% endblock %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="/">Contact</a>
                 </li>
             </ul>
         </div>
@@ -129,62 +141,10 @@
         <!-- Main Content -->
         <div class="main-content">
             <!-- Your existing content goes here -->
-            <div class="container" style="text-align: center;">
-                <br><br>
-                <h1>Welcome to ChatCraft CRM</h1>
-                <br><br><br><br>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fas fa-shopping-cart"></i>Products</h5>
-                                <p class="card-text">Manage your contacts with ease.</p>
-                                <a href="products/get/" class="btn btn-primary">Go To</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Feature 2</h5>
-                                <p class="card-text">Track interactions and communications.</p>
-                                <a href="#" class="btn btn-primary">Go To</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Feature 3</h5>
-                                <p class="card-text">Monitor sales and leads.</p>
-                                <a href="#" class="btn btn-primary">Go To</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Feature 4</h5>
-                                <p class="card-text">Automate tasks and workflows.</p>
-                                <a href="#" class="btn btn-primary">Go To</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Feature 5</h5>
-                                <p class="card-text">Generate insightful reports.</p>
-                                <a href="#" class="btn btn-primary">Go To</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% block content %}
+            {% endblock %}
         </div>
-    
+
         <!-- Chat Dialog -->
         <div class="chat-dialog">
             <!-- Chat content goes here -->
@@ -204,9 +164,11 @@
     </div>
     <!-- Your existing HTML code... -->
 
-    <button id="toggle-chat" style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 16px; background-color: teal; color: white; border: none; border-radius: 5px; cursor: pointer;">Toggle</button>
-
-<!-- Your existing HTML code... -->
+    <button id="toggle-chat"
+        style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 16px; background-color: teal; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        <i class="fas fa-times"></i>
+    </button>
+    <!-- Your existing HTML code... -->
 
 
     <!-- Add Bootstrap JS (optional, for dropdowns, toggles, etc.) -->
@@ -219,9 +181,9 @@
             const chatInput = document.getElementById('chat-input');
             const sendMessageBtn = document.getElementById('send-message');
 
-            let module, action, columns=[], expected_cols, columns_keys;
-            let all_modules = ['products', 'salesorders', 'salesinvoices','customers','employees'];
-            let all_actions = ['add','edit','delete'];
+            let module, action, columns = [], expected_cols, columns_keys;
+            let all_modules = ['products', 'salesorders', 'salesinvoices', 'customers', 'employees'];
+            let all_actions = ['add', 'edit', 'delete'];
 
             function appendMessage(message, type) {
                 const messageElement = document.createElement('div');
@@ -235,50 +197,49 @@
                 if (!input) return;
 
                 if (!module) {
-                    appendMessage(`${input}`,'user');
-                    if(all_modules.includes(input)){
+                    appendMessage(`${input}`, 'user');
+                    if (all_modules.includes(input)) {
                         module = input;
-                        appendMessage('Enter action (add, delete, edit).','bot');
+                        appendMessage('Enter action (add, delete, edit).', 'bot');
                     }
-                    else{
-                        appendMessage('Enter valid module.','bot');
+                    else {
+                        appendMessage('Enter valid module.', 'bot');
                     }
-                } 
+                }
                 else if (!action) {
-                    appendMessage(`${input}`,'user')
+                    appendMessage(`${input}`, 'user')
                     if (all_actions.includes(input)) {
                         action = input;
                         columns_keys = ['Column 1', 'Column 2', 'Column 3'];
                         expected_cols = columns_keys.length;
-                        appendMessage(`Enter the following Columns for ${module} to perform ${action}.`,'bot');
+                        appendMessage(`Enter the following Columns for ${module} to perform ${action}.`, 'bot');
                         appendMessage(`Enter the ${columns_keys[columns.length]}`, 'bot')
                     }
                     else {
-                        appendMessage('Enter valid action.','bot');
+                        appendMessage('Enter valid action.', 'bot');
                     }
                 }
-                else if(columns.length!=expected_cols){
-                    appendMessage(`${input}`,'user');
+                else if (columns.length != expected_cols) {
+                    appendMessage(`${input}`, 'user');
                     columns.push(input);
-                    if(columns.length==expected_cols){
+                    if (columns.length == expected_cols) {
                         appendMessage('Action was successfully performed', 'bot');
                         appendMessage('Wanna Continue?', 'bot');
                     }
-                    else{
+                    else {
                         appendMessage(`Enter the ${columns_keys[columns.length]}`, 'bot');
                     }
                 }
                 else {
-                    appendMessage(`${input}`,'user');
-                    if(input=='yes'){
+                    appendMessage(`${input}`, 'user');
+                    if (input == 'yes') {
                         module = null;
                         action = null;
                         columns = null;
-                        appendMessage('Enter module:','bot');
+                        appendMessage('Enter module:', 'bot');
                     }
-                    else{
-                        appendMessage('Thank You','bot');
-                        // chatMessages.innerHTML=''
+                    else {
+                        appendMessage('Thank You', 'bot');
                     }
                 }
 
@@ -289,25 +250,31 @@
                 handleUserInput(chatInput.value);
             });
 
+            chatInput.addEventListener('keydown', function (event) {
+                if (event.key == 'Enter') {
+                    handleUserInput(chatInput.value);
+                }
+            });
+
             appendMessage('Hi! Welcome', 'bot')
-            appendMessage('Enter module.','bot');
+            appendMessage('Enter module.', 'bot');
+
 
             const chatDialog = document.querySelector('.chat-dialog');
             const toggleChatButton = document.getElementById('toggle-chat');
             const mainpage = document.querySelector('.grid-container');
 
-            // Function to toggle chat visibility
             function toggleChat() {
                 if (chatDialog.style.display === 'none' || chatDialog.style.display === '') {
                     chatDialog.style.display = 'block';
                     mainpage.style.gridTemplateColumns = '70% 30%';
+                    is_chat_open = true;
                 } else {
                     chatDialog.style.display = 'none';
                     mainpage.style.gridTemplateColumns = '100% 0%';
+                    is_chat_open = false;
                 }
             }
-
-            // Add an event listener to the button
             toggleChatButton.addEventListener('click', toggleChat);
         });
     </script>

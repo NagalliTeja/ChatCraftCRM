@@ -47,7 +47,7 @@ def addProduct(request : HttpRequest):
     else:
         form = ProductForm()
 
-    return render(request, 'Products/add_product.html', {'form': form})
+    return render(request, 'Products/save_product.html', {'form': form})
 
 @csrf_exempt
 def editProduct(request, product_id):
@@ -58,11 +58,11 @@ def editProduct(request, product_id):
         if form.is_valid():
             form.save()
             # Redirect to a success page or show a success message
-            return redirect('/products/get/')
+            return redirect('/products/get/') 
     else:
         form = ProductForm(instance=instance)
     # return HttpResponse("updated")
-    return render(request, 'Products/edit_Product.html', {'form': form, 'instance': instance})
+    return render(request, 'Products/save_Product.html', {'form': form, 'instance': instance})
 
 @csrf_exempt
 def deleteProduct(request, product_id):

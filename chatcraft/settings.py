@@ -56,7 +56,7 @@ ROOT_URLCONF = 'chatcraft.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates', 'home/templates', 'products/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

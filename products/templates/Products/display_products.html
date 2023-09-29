@@ -1,11 +1,16 @@
-{% extends 'Products/base.html' %}
+{% extends 'base.html' %}
 
+{% block extra_nav %}
+<li class="nav-item">
+    <a class="nav-link" href="/products/add/" style="color: white;">Add Product</a>
+</li>
+{% endblock %}
 {% block content %}
-<h1>Products</h1>
+<h1 class="page-title">Products</h1>
 
-<table style="width: 100%;">
+<table class="custom-table">
     <thead>
-        <tr style="height: 50px;">
+        <tr class="table-header">
             <th>Product ID</th>
             <th>Product Name</th>
             <th>Unit of Measure</th>
@@ -16,11 +21,8 @@
         </tr>
     </thead>
     <tbody>
-        <!-- <p>{{products}}</p> -->
         {% for product in products %}
-        <!-- {% with product.fields as fields %} -->
         <tr>
-            <!-- <td>{{product}}</td> -->
             <td>{{ product.PRODUCT_ID }}</td>
             <td>{{ product.PRODUCT_NAME }}</td>
             <td>{{ product.UOM }}</td>
@@ -28,12 +30,45 @@
             <td>{{ product.COST }}</td>
             <td>{{ product.STATUS }}</td>
             <td>
-                <a href="/products/edit/{{ product.PRODUCT_ID }}/">Edit</a> |
-                <a href="/products/delete/{{ product.PRODUCT_ID }}/">Delete</a>
+                <a href="/products/edit/{{ product.PRODUCT_ID }}/" class="action-link">Edit</a> |
+                <a href="/products/delete/{{ product.PRODUCT_ID }}/" class="action-link">Delete</a>
             </td>
         </tr>
-        {% endwith %}
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block extra_css %}
+body {
+    font-size: 15px;
+}
+
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    overflow-y: auto;
+}
+
+.custom-table th, .custom-table td {
+    text-align: left;
+    padding: 8px;
+}
+
+.table-header {
+    background-color: teal;
+    color: white;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.action-link {
+    text-decoration: none;
+    color: #007bff;
+    margin-right: 5px;
+}
 {% endblock %}
